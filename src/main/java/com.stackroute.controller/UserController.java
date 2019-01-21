@@ -1,8 +1,8 @@
 package com.stackroute.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stackroute.services.DatabaseConnection;
+import com.stackroute.services.Login;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,21 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class UserController {
 
-    User user=new User();
-
+    Login login =new Login();
     @RequestMapping(value= "/")
     public String greeting(){
 
         return "login";
     }
 
-    @RequestMapping("/index")
+    @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response){
-        user.setName(request.getParameter("h1"));
-        user.setPassword(request.getParameter("h2"));
 
-        String message = "Welcome to Stackroute" + " "+user.getName();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
 
+        login.setUsername(request.getParameter("h1"));
+        login.setPassword(request.getParameter("h2"));
+
+        String message = "Welcome to Stackroute" + " "+ login.getUsername();
+
+        databaseConnection.InsertData(login.getUsername(),login.getPassword());
+        databaseConnection.showdata();
         ModelAndView modelView = new ModelAndView();
         modelView.setViewName("index");
         modelView.addObject("result",message);

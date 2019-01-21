@@ -3,6 +3,6 @@
 <%@ page isELIgnored="false" %>
 </head>
 <body>
-   ${result}
+  <h2> ${result}</h2>
 </body>
 </html>
